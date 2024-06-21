@@ -118,7 +118,7 @@ class PersonaldetailController extends Controller
 
         $personaldetail = Personaldetail::find($id);
 
-        if (is_null($product)) {
+        if (is_null($personaldetail)) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Personal detail is not found!',

@@ -1,6 +1,5 @@
 
 
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -20,10 +19,10 @@ return new class extends Migration
             $table->text('bio');
             $table->string('nationality');
             $table->string('country');
-            $table->string('cvpath');
-            $table->string('businessname');
+            $table->string('cvpath')->nullable();
+            $table->string('businessname');  //nullable
             $table->string('website');
-            $table->string('industry');
+            $table->string('industry');  //php artisan migrate:refresh 
             $table->string('no_of_employee');
             $table->timestamps();
         });

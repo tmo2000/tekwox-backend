@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('biddocument');
             $table->string('currency');
             $table->integer('amount');
-            $table->string('supportingdocument');
+            $table->string('supportingdocument');  //add date
             $table->timestamps();
         });
     }
