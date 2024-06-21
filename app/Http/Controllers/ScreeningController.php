@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
+use App\Models\Screening;
 use Illuminate\Http\Request;
 use Validator;
 
-class ProjectController extends Controller
+class ScreeningController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $projects = Project::latest()->get();
+        $screenings = Screening::latest()->get();
         
-        if (is_null($projects->first())) {
+        if (is_null($screenings->first())) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'No projects found!',
+                'message' => 'No screening questions found!',
             ], 200);
         }
 
         $response = [
             'status' => 'success',
-            'message' => 'Projects are retrieved successfully.',
-            'data' => $projects,
+            'message' => 'Screening questions are retrieved successfully.',
+            'data' => $screenings,
         ];
 
         return response()->json($response, 200);
@@ -37,21 +37,11 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'projectreferencenumber'  => 'required|string|max:250',  
-            'projecttitle'  => 'required',
-            'projectdetails' => 'required',
-            'location' => 'required',
-            'opentolocalbusinesses' => 'required',
-            'openinternationally'=> 'required',       
-            'preferredbiddingcurrency1' => 'required',
-            'makecurrencymandatory' => 'required',
-            'preferredbiddingcurrency2' => 'required',
-            'limitbidamount' => 'required',
-            'bidamount' => 'required',
-            'startdate' => 'required',
-            'starttime' => 'required',
-            'enddate' => 'required',
-            'endtime' => 'required'
+            'jobid' => 'required',
+            'questiontype' => 'required',
+            'question'  => 'required',
+            'idealanswer' => 'required',
+            'compulsoryforshortlisting'  => 'required'
         ]);
 
         if($validate->fails()){  
@@ -62,12 +52,12 @@ class ProjectController extends Controller
             ], 403);    
         }
 
-        $projects = Project::create($request->all());
+        $screenings = Screening::create($request->all());
 
         $response = [
             'status' => 'success',
-            'message' => 'Projects are added successfully.',
-            'data' => $projects,
+            'message' => 'Screening questions are added successfully.',
+            'data' => $screenings,
         ];
 
         return response()->json($response, 200);
@@ -79,19 +69,19 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::find($id);
+        $screening = Screening::find($id);
   
-        if (is_null($project)) {
+        if (is_null($screening)) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Project is not found!',
+                'message' => 'Screening question is not found!',
             ], 200);
         }
 
         $response = [
             'status' => 'success',
-            'message' => 'Projects are retrieved successfully.',
-            'data' => $project,
+            'message' => 'Screening questions are retrieved successfully.',
+            'data' => $screening,
         ];
         
         return response()->json($response, 200);
@@ -103,21 +93,11 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(), [
-            'projectreferencenumber',  
-            'projecttitle',
-            'projectdetails',
-            'location',
-            'opentolocalbusinesses',
-            'openinternationally',       
-            'preferredbiddingcurrency1',
-            'makecurrencymandatory',
-            'preferredbiddingcurrency2',
-            'limitbidamount',
-            'bidamount',
-            'startdate',
-            'starttime',
-            'enddate',
-            'endtime'
+            'jobid',
+            'questiontype',
+            'question',
+            'idealanswer',
+            'compulsoryforshortlisting'
         ]);
 
         if($validate->fails()){  
@@ -128,21 +108,21 @@ class ProjectController extends Controller
             ], 403);
         }
 
-        $project = Project::find($id);
+        $screening= Screening::find($id);
 
-        if (is_null($project)) {
+        if (is_null($screening)) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Project is not found!',
+                'message' => 'Screening question is not found!',
             ], 200);
         }
 
-        $project->update($request->all());
+        $screening->update($request->all());
         
         $response = [
             'status' => 'success',
-            'message' => 'Project is updated successfully.',
-            'data' => $project,
+            'message' => 'Screening question is updated successfully.',
+            'data' => $screening,
         ];
 
         return response()->json($response, 200);
@@ -153,19 +133,19 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        $project = Project::find($id);
+        $screening = Screening::find($id);
   
-        if (is_null($project)) {
+        if (is_null($screening)) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Project is not found!',
+                'message' => 'Screening question is not found!',
             ], 200);
         }
 
         Project::destroy($id);
         return response()->json([
             'status' => 'success',
-            'message' => 'Project is deleted successfully.'
+            'message' => 'Screening question is deleted successfully.'
             ], 200);
     }
 
@@ -175,22 +155,22 @@ class ProjectController extends Controller
      * @param  str  $jobid
      * @return \Illuminate\Http\Response
      */
-    public function search($projectreferencenumber)
+    public function search($jobid)
     {
-        $project = Project::where('projectreferencenumber', '=', $projectreferencenumber)
+        $project = Project::where('jobid', '=', $jobid)
             ->latest()->get();
 
-        if (is_null($project->first())) {
+        if (is_null($screening->first())) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'No projects found!',
+                'message' => 'No screening questions found!',
             ], 200);
         }
 
         $response = [
             'status' => 'success',
-            'message' => 'Projects are retrieved successfully.',
-            'data' => $project,
+            'message' => 'Screening questions are retrieved successfully.',
+            'data' => $screening,
         ];
 
         return response()->json($response, 200);

@@ -11,6 +11,7 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\BidprojectController;
+use App\Http\Controllers\ScreeningController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +111,17 @@ Route::controller(BidprojectController::class)->group(function() {
     Route::post('/bidproject/{id}', 'update');
     Route::delete('/bidproject/{id}', 'destroy');
 });
+
+Route::controller(ScreeningController::class)->group(function() {
+    Route::get('/screening', 'index');
+    Route::get('/screening/{id}', 'show');
+    Route::get('/screening/search/{jobid}', 'search');
+
+    Route::post('/screening', 'store');
+    Route::post('/screening/{id}', 'update');
+    Route::delete('/screening/{id}', 'destroy');
+});
+
 
 // Public routes of product
 //Route::controller(PersonaldetailController::class)->group(function() {
